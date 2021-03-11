@@ -7,6 +7,13 @@
   height: 60px;
   font-size: 1.1em;
 
+  .btn-deconnexion {
+    background-color: white;
+    color: red;
+    font-size: 0.6em;
+    margin-left: 10px;
+  }
+
   &>* {
     display: flex;
     padding: 0 20px;
