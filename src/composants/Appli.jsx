@@ -7,10 +7,35 @@ import Accueil from './Accueil';
 import { useState, useEffect } from 'react';
 import firebase from 'firebase/app';
 import { firestore } from '../firebase';
+import './AjouterDossier';
+import AjouterDossier from './AjouterDossier';
 
 export default function Appli() {
   const etatUtilisateur = useState(null);
   const [utilisateur, setUtilisateur] = etatUtilisateur;
+
+  // Gestion du formulaire AjoutDossier
+  const [ouvert, setOuvert] = useState(false);
+
+  function gererFermer() {
+    setOuvert(false);
+  }
+
+  function gererAjout(nom, couleur, urlImage) {
+    // Ajouter à Firestore ... 
+    // console.log(nom, couleur, urlImage);
+
+    firestore.collection('utilisateurs').doc(utilisateur.uid).collection('dossiers').add(
+      {
+        nom: nom,
+        couleur: couleur,
+        image: urlImage,
+        date_modif: firebase.firestore.FieldValue.serverTimestamp()
+      }
+    ).then(
+      () => setOuvert(false)
+    ).catch(erreur=>console.log(erreur));
+  }
 
   useEffect(
     () => {
@@ -38,7 +63,10 @@ export default function Appli() {
             <Entete etatUtilisateur={etatUtilisateur} />
             <section className="contenu-principal">
               <ListeDossiers etatUtilisateur={etatUtilisateur} />
-              <Fab className="ajoutRessource" color="primary" aria-label="Ajouter dossier">
+
+              <AjouterDossier ouvert={ouvert} gererFermer={gererFermer} gererAjout={gererAjout} />
+
+              <Fab className="ajoutRessource" color="primary" aria-label="Ajouter dossier" onClick={()=>setOuvert(true)}>
                 <AddIcon />
               </Fab>
             </section>

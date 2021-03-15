@@ -3,7 +3,6 @@ import * as firebaseui from 'firebaseui';
 import 'firebase/firestore';
 
 // Config
-// Il faut mettre votre propre config ici
 const firebaseConfig = {
   
 };
